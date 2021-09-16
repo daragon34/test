@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\Project;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -41,13 +42,12 @@ class LoginController extends Controller
     protected function authenticated(){
         $user = auth()->user();
 
-        if($user->is_admin || $user->is_client)
-            return;
-
-        if (! $user->selected_project_id ){
-
-            $user->selected_project_id = $user->projects->first()->id;
+        if (! $user->selected_project_id){
+            if($user->is_admin || $user->is_client)
+                $user->selected_project_id = Project::first()->id;
+            }else{
+                $user->selected_project_id = $user->projects->first()->id;
+            }
             $user->save();
         }
-    }
 }

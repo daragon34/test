@@ -35,6 +35,12 @@ Route::get('/reportar', [IncidentController::class, 'create']);
 Route::post('/reportar', [IncidentController::class, 'store']);
 Route::get('/ver/{id}', [IncidentController::class, 'show']);
 
+Route::get('/incidencia/{id}/atender', [IncidentController::class, 'heed']);
+Route::get('/incidencia/{id}/finalizar', [IncidentController::class, 'end']);
+Route::get('/incidencia/{id}/reabrir', [IncidentController::class, 'open']);
+Route::get('/incidencia/{id}/editar', [IncidentController::class, 'edit']);
+Route::get('/incidencia/{id}/nivel', [IncidentController::class, 'nextLevel']);
+
 Route::group(['middleware'=>'admin'], function(){
 
     Route::get('/proyecto', [ProjectController::class, 'index']);

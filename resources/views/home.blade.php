@@ -92,10 +92,10 @@
                         <tbody id="otras_incidencias">
                             @foreach($otros_incidentes as $incidents)
                                 <tr>
-                                    <td><a href="/ver/{{ $incident->id}}"> {{ $incident->id}}</a></td>
+                                    <td><a href="/ver/{{ $incidents->id}}"> {{ $incidents->id}}</a></td>
                                     <td>{{$incidents->category->nombre}}</td>
                                     <td>{{$incidents->prioridad_completo}}</td>
-                                    <td>{{$incident->estado}}</td>
+                                    <td>{{$incidents->estado}}</td>
                                     <td>{{$incidents->created_at}}</td>
                                     <td>{{$incidents->descripcion}}</td>
                                     <td>{{$incidents->support_id ?: 'Sin asignar'}}</td>

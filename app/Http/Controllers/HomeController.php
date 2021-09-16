@@ -25,7 +25,8 @@ class HomeController extends Controller
     {
         $user = auth()->user();
         $selected_project_id = $user->selected_project_id;
-
+        $incidentes = 0;
+        $sin_asignar = 0;
         if ($user->is_support || $user->is_admin){
             $incidentes = Incident::where('project_id', $selected_project_id)
                                 ->where('support_id', $user->id)->get();

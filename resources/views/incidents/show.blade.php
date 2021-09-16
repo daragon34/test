@@ -6,6 +6,11 @@
         <center><h5>Ver detalles de incidencia</h5></center>
     </div>
     <div class="panel-body">
+        @if (session('aviso'))
+            <div class="alert alert-success">
+                {{session('aviso')}}
+            </div>
+        @endif
         @if (count($errors)>0)
             <div class="alert alert-danger">
                 <ul>
@@ -50,7 +55,7 @@
                 <thead>
                 <tr>
                     <th>Responsable</th>
-                    <th>Visibilidad</th>
+                    <th>Nivel</th>
                     <th>Estado</th>
                     <th>Prioridad</th>
                 </tr>
@@ -58,13 +63,26 @@
             <tbody>
                 <tr>
                     <td scope="row" id="incident_support">{{$incident->support_name}}</td>
-                    <td scope="row" id="incident_visible">Público</td>
+                    <td scope="row" id="incident_visible">{{$incident->level->nombre}}</td>
                     <td scope="row" id="incident_state">{{$incident->estado}}</td>
                     <td scope="row" id="incident_severity">{{$incident->prioridad}}</td>
                 </tr>
                 </tbody>
         </table>
-        <button class="btn btn-primary" href="#" role="button">Atender</button>
+        @if($incident->support_id == null & $incident->active)
+            <a href="/incidencia/{{$incident->id}}/atender" class="btn btn-primary">Atender</a>
+        @endif
+        @if(auth()->user()->id == $incident->client_id) 
+            @if($incident->active)  
+                <a href="/incidencia/{{$incident->id}}/finalizar" class="btn btn-info">Marcar finalizada</a>        
+            @else
+                <a href="/incidencia/{{$incident->id}}/reabrir" class="btn btn-success">Reabrir</a>
+            @endif
+        @endif
+            <a href="/incidencia/{{$incident->id}}/editar" class="btn btn-warning">Editar</a>
+        @if (auth()->user()->id == $incident->support_id && $incident->active)
+            <a href="/incidencia/{{$incident->id}}/nivel" class="btn btn-secondary">Enviar a siguiente nivel</a>
+        @endif
     </div>
 </div>
 @endsection
